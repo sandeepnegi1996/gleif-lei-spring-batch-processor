@@ -1,8 +1,8 @@
 # Use a multi-stage build to create a small, secure, and production-ready Docker image.
 
 # Stage 1: Build the application
-# Use an official Maven image to build the JAR file.
-FROM maven:3.8.7-openjdk-17 AS builder
+# Use a more stable Maven image tag that is less likely to be deprecated.
+FROM maven:3-openjdk-17-slim AS builder
 
 # Set the working directory inside the container.
 WORKDIR /app

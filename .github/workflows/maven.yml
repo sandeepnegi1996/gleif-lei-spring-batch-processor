@@ -1,7 +1,7 @@
 # .github/workflows/maven.yml
 
 # Workflow name for easy identification in GitHub Actions UI.
-name: sprinbatch for gleif api
+name: Maven & Spring Boot CI/CD
 
 # Define the events that trigger this workflow.
 on:
@@ -27,6 +27,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: 'maven'
+
+      - name: Grant execute permission to mvnw
+        run: chmod +x mvnw
 
       - name: Build and Test with Maven
         run: ./mvnw -B clean package

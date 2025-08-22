@@ -1,5 +1,6 @@
 package com.hashcodehub.gleifleispringbatchprocessor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v1/lei")
+@Slf4j
 public class LeiProcessorController {
 
     private final JobLauncher jobLauncher;
@@ -34,7 +36,7 @@ public class LeiProcessorController {
      */
     @PostMapping("/process")
     public ResponseEntity<String> processLeiRecords() {
-        System.out.println("Endpoint triggered: Starting LEI processing job manually.");
+        log.info("Endpoint triggered: Starting LEI processing job manually.");
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("run.id", System.currentTimeMillis())
                 .toJobParameters();

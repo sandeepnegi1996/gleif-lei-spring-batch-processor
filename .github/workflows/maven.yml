@@ -1,35 +1,43 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+# .github/workflows/maven.yml
 
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+# Workflow name for easy identification in GitHub Actions UI.
+name: Maven Build and Test
 
-name: Java CI with Maven
-
+# Define the events that trigger this workflow.
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master  # Trigger on pushes to the 'main' branch
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - master  # Trigger on pull requests targeting the 'main' branch
 
+# A workflow run is made up of one or more jobs that run sequentially or in parallel.
 jobs:
   build:
-
+    # The type of runner machine to use.
     runs-on: ubuntu-latest
 
+    # The steps that make up the job.
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn clean install
+      # Step 1: Checks out your repository under $GITHUB_WORKSPACE.
+      # This is the first step in every workflow to get access to your code.
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
-    - name: Update dependency graph
-      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
+      # Step 2: Sets up a Java JDK environment.
+      # It ensures the correct Java version is available for the build.
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      # Step 3: This step is automatically handled by the previous one.
+      # The 'cache' parameter in 'actions/setup-java' caches Maven dependencies.
+
+      # Step 4: Run the Maven command to build and package the application.
+      # 'clean install' will compile the code, run tests, and package it into a JAR.
+      - name: Build with Maven
+        run: mvn -B clean install
